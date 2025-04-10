@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright Test Company, Inc. All Rights Reserved.
 
 
 #include "BowlingScoreGame/Public/Core/BowlingScoreModel.h"
@@ -35,6 +35,7 @@ void ABowlingScoreModel::ChangeFrameScore(int FramePosition, int RoundPosition, 
 void ABowlingScoreModel::BeginPlay()
 {
 	Super::BeginPlay();
+	//we add 9 normal score frames and then add the final score frame.
 	for (int i = 0; i < 9; i++)
 	{
 		BowlingFrames.Add(NewObject<UBowlingScoreFrame>());
@@ -43,12 +44,13 @@ void ABowlingScoreModel::BeginPlay()
 	FrameScores.Init(0,10);
 	BowlingFrames.Add(NewObject<UBowlingScoreFinalFrame>());
 }
-// check each Frame
+// check each Frame and get the final score value
 void ABowlingScoreModel::CalculateScore()
 {
 	 FrameIndex=0;
 	uint16 TotalScore=0;
-	while (FrameIndex<=9)
+	 constexpr int NumberOfRounds=9;
+	while (FrameIndex<=NumberOfRounds)
 	{
 		switch (BowlingFrames[FrameIndex]->ValidateFrame())
 		{
@@ -56,7 +58,7 @@ void ABowlingScoreModel::CalculateScore()
 			FrameScores[FrameIndex] = BowlingFrames[FrameIndex]->AddRoundsScores();
 			break;
 		case EFrameTypeScore::Spare:
-			if (FrameIndex==9)
+			if (FrameIndex==NumberOfRounds)
 			{
 				FrameScores[FrameIndex]=BowlingFrames[FrameIndex]->AddRoundsScores();
 			}else
@@ -65,15 +67,16 @@ void ABowlingScoreModel::CalculateScore()
 			}
 			break;
 		case EFrameTypeScore::Strike:
-			if (FrameIndex==9)
+			//strikes edge cases when we are on last 3 frames
+			if (FrameIndex==NumberOfRounds)
 			{
 				FrameScores[FrameIndex]= BowlingFrames[FrameIndex]->AddRoundsScores();
-			}else if (FrameIndex==8)
+			}else if (FrameIndex==NumberOfRounds-1)
 			{
 				FrameScores[FrameIndex]= BowlingFrames[FrameIndex]->AddRoundsScores()+BowlingFrames[FrameIndex+1]->RoundScores[0]+BowlingFrames[FrameIndex+1]->RoundScores[1];
 				
 			}
-			else if (FrameIndex==7)
+			else if (FrameIndex==NumberOfRounds-2)
 			{
 				
 				if (BowlingFrames[FrameIndex+1]->ValidateFrame()==EFrameTypeScore::Strike)
@@ -99,9 +102,8 @@ void ABowlingScoreModel::CalculateScore()
 			}
 			break;
 		}
-
+		//We add to total score the frame score and then we broadcast the change so that any system can get the score of a frame
 		TotalScore+=FrameScores[FrameIndex];
-		UE_LOG(LogTemp, Display, TEXT("Total Score: %d"), TotalScore);
 		OnFrameScoreChanged.Broadcast(FrameIndex,FrameScores[FrameIndex],TotalScore);
 		FrameIndex++;
 	}

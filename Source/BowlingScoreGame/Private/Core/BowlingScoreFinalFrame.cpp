@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright Test Company, Inc. All Rights Reserved.
 
 
 #include "BowlingScoreGame/Public/Core/BowlingScoreFinalFrame.h"

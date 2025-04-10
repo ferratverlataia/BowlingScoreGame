@@ -6,10 +6,7 @@
 #include "UObject/Object.h"
 #include "BowlingScoreFrame.generated.h"
 
-/**
- * 
- */
-
+///enum that helps us identify the frames type of play
 UENUM()
 enum class EFrameTypeScore:uint8
 {

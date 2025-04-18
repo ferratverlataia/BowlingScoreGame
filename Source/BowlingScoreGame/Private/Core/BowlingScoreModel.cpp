@@ -68,7 +68,6 @@ void ABowlingScoreModel::CalculateScore()
 			break;
 		case EFrameTypeScore::Strike:
 			//strikes edge cases when we are on last 3 frames
-			//when its the last frame
 			if (FrameIndex==NumberOfRounds)
 			{
 				FrameScores[FrameIndex]= BowlingFrames[FrameIndex]->AddRoundsScores();
@@ -99,11 +98,11 @@ void ABowlingScoreModel::CalculateScore()
 			}
 			else
 			{
-				FrameScores[FrameIndex]=BowlingFrames[FrameIndex]->AddRoundsScores()+BowlingFrames[FrameIndex+1]->AddRoundsScores();
+				FrameScores[FrameIndex]=BowlingFrames[FrameIndex]->AddRoundsScores();
 			}
 			break;
 		}
-		//We add to total score the frame score, and then we broadcast the change so that any system can get the score of a frame
+		//We add to total score the frame score and then we broadcast the change so that any system can get the score of a frame
 		TotalScore+=FrameScores[FrameIndex];
 		OnFrameScoreChanged.Broadcast(FrameIndex,FrameScores[FrameIndex],TotalScore);
 		FrameIndex++;

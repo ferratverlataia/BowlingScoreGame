@@ -98,7 +98,7 @@ void ABowlingScoreModel::CalculateScore()
 			}
 			else
 			{
-				FrameScores[FrameIndex]=BowlingFrames[FrameIndex]->AddRoundsScores();
+				FrameScores[FrameIndex]=BowlingFrames[FrameIndex]->AddRoundsScores()+BowlingFrames[FrameIndex+1]->AddRoundsScores();
 			}
 			break;
 		}

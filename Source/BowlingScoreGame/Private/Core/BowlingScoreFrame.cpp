@@ -20,7 +20,7 @@ EFrameTypeScore UBowlingScoreFrame::ValidateFrame()
 		return EFrameTypeScore::Normal;
 	}
 
-	if(RoundScores[0] ==10 || RoundScores[1] ==10)
+	if(RoundScores[0] ==10)
 	{
 		return  EFrameTypeScore::Strike;
 	}

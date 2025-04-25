@@ -36,6 +36,7 @@ void ABowlingScoreModel::BeginPlay()
 {
 	Super::BeginPlay();
 	//we add 9 normal score frames and then add the final score frame.
+	//TODO: change this so that the value can be changed from the inspector
 	for (int i = 0; i < 9; i++)
 	{
 		BowlingFrames.Add(NewObject<UBowlingScoreFrame>());
@@ -71,14 +72,14 @@ void ABowlingScoreModel::CalculateScore()
 			if (FrameIndex==NumberOfRounds)
 			{
 				FrameScores[FrameIndex]= BowlingFrames[FrameIndex]->AddRoundsScores();
-			}else if (FrameIndex==NumberOfRounds-1)
+			}
+			else if (FrameIndex==NumberOfRounds-1)
 			{
 				FrameScores[FrameIndex]= BowlingFrames[FrameIndex]->AddRoundsScores()+BowlingFrames[FrameIndex+1]->RoundScores[0]+BowlingFrames[FrameIndex+1]->RoundScores[1];
 				
 			}
 			else if (FrameIndex==NumberOfRounds-2)
 			{
-				
 				if (BowlingFrames[FrameIndex+1]->ValidateFrame()==EFrameTypeScore::Strike)
 				{
 					FrameScores[FrameIndex]= BowlingFrames[FrameIndex]->AddRoundsScores()+BowlingFrames[FrameIndex+1]->AddRoundsScores()+BowlingFrames[FrameIndex+2]->RoundScores[1];
@@ -91,10 +92,6 @@ void ABowlingScoreModel::CalculateScore()
 			else if (BowlingFrames[FrameIndex+1]->ValidateFrame()==EFrameTypeScore::Strike&&BowlingFrames[FrameIndex+2]->ValidateFrame()==EFrameTypeScore::Strike)
 			{
 				FrameScores[FrameIndex]=BowlingFrames[FrameIndex]->AddRoundsScores()+BowlingFrames[FrameIndex+1]->AddRoundsScores()+BowlingFrames[FrameIndex+2]->AddRoundsScores();
-			}
-			else if (BowlingFrames[FrameIndex+1]->ValidateFrame()==EFrameTypeScore::Strike||BowlingFrames[FrameIndex+1]->ValidateFrame()==EFrameTypeScore::Spare)
-			{
-				FrameScores[FrameIndex]=BowlingFrames[FrameIndex]->AddRoundsScores()+BowlingFrames[FrameIndex+1]->AddRoundsScores();
 			}
 			else
 			{

@@ -18,16 +18,15 @@ public:
 	//Our Array of Frames inside the game
 	UPROPERTY()
 	TArray<UBowlingScoreFrame*> BowlingFrames;
-	//each scores frame this is seperate because we need other frames to know the total score
-	TArray<uint16> FrameScores;
-
+	UPROPERTY()
+	TArray<int32> FrameScores;
+	UPROPERTY(EditAnywhere,BlueprintReadOnly)
+	int32 NumberOfRounds=10;
 	UFUNCTION(BlueprintCallable)
 	void ChangeFrameScore(int FrameIndex,int RoundIndex, int NewScoreValue);
 	UPROPERTY(BlueprintAssignable)
 	FFrameScoreChanged OnFrameScoreChanged;
 protected:
-	//our Explorer helps us know in which frame we are currently in
-	uint16 FrameIndex=0;
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	//Calculates the Frames scores and Final Score of the Player

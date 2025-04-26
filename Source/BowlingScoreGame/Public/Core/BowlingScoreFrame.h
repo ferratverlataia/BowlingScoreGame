@@ -20,11 +20,11 @@ class BOWLINGSCOREGAME_API UBowlingScoreFrame : public UObject
 {
 public:
 	GENERATED_BODY()
-	
+
 	TArray<int32> RoundScores;
-	
+
 	UBowlingScoreFrame();
-	
+
 	virtual EFrameTypeScore ValidateFrame();
 
 	virtual int AddRoundsScores();

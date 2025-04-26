@@ -15,5 +15,4 @@ public:
 	UBowlingScoreFinalFrame();
 	virtual EFrameTypeScore ValidateFrame() override;
 	virtual int AddRoundsScores() override;
-
 };

@@ -5,35 +5,34 @@
 
 UBowlingScoreFrame::UBowlingScoreFrame()
 {
-	RoundScores.Init(0,2);
+	RoundScores.Init(0, 2);
 }
 
 EFrameTypeScore UBowlingScoreFrame::ValidateFrame()
 {
-	const int ScoredPins=RoundScores[0]+RoundScores[1];
-
-	if (ScoredPins>10)
+	const int32 ScoredPins = RoundScores[0] + RoundScores[1];
+	constexpr int32 MaxFallenPins = 10;
+	if (ScoredPins > MaxFallenPins)
 	{
-		RoundScores[0]=0;
-		RoundScores[1]=0;
-			
+		RoundScores[0] = 0;
+		RoundScores[1] = 0;
+
 		return EFrameTypeScore::Normal;
 	}
 
-	if(RoundScores[0] ==10)
+	if (RoundScores[0] == MaxFallenPins)
 	{
-		return  EFrameTypeScore::Strike;
+		return EFrameTypeScore::Strike;
 	}
-	if (ScoredPins ==10)
+	if (ScoredPins == MaxFallenPins)
 	{
 		return EFrameTypeScore::Spare;
 	}
-	
-	return EFrameTypeScore::Normal;
 
+	return EFrameTypeScore::Normal;
 }
 
 int UBowlingScoreFrame::AddRoundsScores()
 {
-	return RoundScores[0]+RoundScores[1];
+	return RoundScores[0] + RoundScores[1];
 }
